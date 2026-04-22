@@ -1,1 +1,48 @@
-
+{
+    "keyboard_name": "saaqib_macropad",
+    "manufacturer": "Saaqib",
+    "maintainer": "saaqib-m",
+    "development_board": "promicro_rp2040",
+    "usb": {
+        "vid": "0x534D",
+        "pid": "0x0001",
+        "device_version": "1.0.0"
+    },
+    "matrix_pins": {
+        "rows": ["GP0", "GP1", "GP2"],
+        "cols": ["GP3", "GP4", "GP5"]
+    },
+    "diode_direction": "ROW2COL",
+    "features": {
+        "bootmagic": true,
+        "mousekey": true,
+        "extrakey": true,
+        "encoder": true,
+        "encoder_map": true,
+        "via": true
+    },
+    "encoder": {
+        "rotary": [
+            {
+                "pin_a": "GP6",
+                "pin_b": "GP7",
+                "resolution": 4
+            }
+        ]
+    },
+    "layouts": {
+        "LAYOUT": {
+            "layout": [
+                {"matrix": [0, 0], "x": 0, "y": 0},
+                {"matrix": [0, 1], "x": 1, "y": 0},
+                {"matrix": [0, 2], "x": 2, "y": 0},
+                {"matrix": [1, 0], "x": 0, "y": 1},
+                {"matrix": [1, 1], "x": 1, "y": 1},
+                {"matrix": [1, 2], "x": 2, "y": 1},
+                {"matrix": [2, 0], "x": 0, "y": 2},
+                {"matrix": [2, 1], "x": 1, "y": 2},
+                {"matrix": [2, 2], "x": 2, "y": 2}
+            ]
+        }
+    }
+}
