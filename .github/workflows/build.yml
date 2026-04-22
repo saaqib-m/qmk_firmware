@@ -1,0 +1,26 @@
+name: Build QMK Firmware
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout QMK
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build firmware
+        uses: docker://ghcr.io/qmk/qmk_firmware:latest
+        with:
+          args: qmk compile -kb saaqib_macropad -km default
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: saaqib_macropad_firmware
+          path: |
+            *.uf2
+            *.hex
+            *.bin
