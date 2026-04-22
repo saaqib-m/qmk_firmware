@@ -21,7 +21,15 @@ jobs:
 
       - name: Setup QMK
         run: qmk setup -H . -y
-
+      - name: Debug — show file structure
+        run: |
+          echo "=== QMK keyboards dir ==="
+          ls keyboards/ | grep saaqib || echo "NOT IN KEYBOARDS DIR"
+          echo "=== Full saaqib folder ==="
+          find . -name "info.json" | grep saaqib || echo "NO INFO.JSON FOUND"
+          echo "=== QMK home ==="
+          qmk config
+          
       - name: Debug — list keyboards
         run: qmk list-keyboards | grep saaqib || echo "NOT FOUND"
 
