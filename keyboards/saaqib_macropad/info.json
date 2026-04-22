@@ -2,7 +2,8 @@
     "keyboard_name": "saaqib_macropad",
     "manufacturer": "Saaqib",
     "maintainer": "saaqib-m",
-    "development_board": "promicro_rp2040",
+    "processor": "RP2040",
+    "bootloader": "rp2040",
     "usb": {
         "vid": "0x534D",
         "pid": "0x0001",
