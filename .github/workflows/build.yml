@@ -5,16 +5,22 @@ on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: qmkfm/qmk_cli
+    
     steps:
-      - name: Checkout QMK
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Build firmware
-        uses: docker://ghcr.io/qmk/qmk_firmware:latest
-        with:
-          args: qmk compile -kb saaqib_macropad -km default
+      - name: Install QMK dependencies
+        run: pip install qmk
+
+      - name: Setup QMK
+        run: qmk setup -H . -y
+
+      - name: Compile firmware
+        run: qmk compile -kb saaqib_macropad -km default
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
