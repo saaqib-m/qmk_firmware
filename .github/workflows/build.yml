@@ -2,11 +2,14 @@ name: Build QMK Firmware
 
 on: [push, workflow_dispatch]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     container: qmkfm/qmk_cli
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,6 +21,12 @@ jobs:
 
       - name: Setup QMK
         run: qmk setup -H . -y
+
+      - name: Debug — list keyboards
+        run: qmk list-keyboards | grep saaqib || echo "NOT FOUND"
+
+      - name: Debug — lint keyboard
+        run: qmk lint -kb saaqib_macropad || true
 
       - name: Compile firmware
         run: qmk compile -kb saaqib_macropad -km default
