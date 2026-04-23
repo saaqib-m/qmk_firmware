@@ -19,21 +19,19 @@ jobs:
       - name: Install QMK CLI
         run: pip3 install qmk
 
-      - name: Install QMK dependencies
-        run: |
-          cd $GITHUB_WORKSPACE
-          git submodule update --init --recursive
-          qmk setup -H $GITHUB_WORKSPACE -y --no-submodules
+      - name: Init submodules
+        run: git submodule update --init --recursive
 
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-arm-none-eabi
+          sudo apt-get install -y gcc-arm-none-eabi binutils-arm-none-eabi
+
+      - name: Setup QMK home
+        run: qmk config user.qmk_home=$GITHUB_WORKSPACE
 
       - name: Compile firmware
-        run: |
-          cd $GITHUB_WORKSPACE
-          qmk compile -kb saaqib_macropad -km default
+        run: qmk compile -kb saaqib_macropad -km default
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
