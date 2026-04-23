@@ -8,36 +8,32 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: qmkfm/qmk_cli
 
     steps:
-      - name: Checkout
+      - name: Checkout QMK
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
+
+      - name: Install QMK CLI
+        run: pip3 install qmk
 
       - name: Install QMK dependencies
-        run: pip install qmk
-
-      - name: Setup QMK
-        run: qmk setup -H . -y
-      - name: Debug — show file structure
         run: |
-          echo "=== QMK keyboards dir ==="
-          ls keyboards/ | grep saaqib || echo "NOT IN KEYBOARDS DIR"
-          echo "=== Full saaqib folder ==="
-          find . -name "info.json" | grep saaqib || echo "NO INFO.JSON FOUND"
-          echo "=== QMK home ==="
-          qmk config
-          
-      - name: Debug — list keyboards
-        run: qmk list-keyboards | grep saaqib || echo "NOT FOUND"
+          cd $GITHUB_WORKSPACE
+          git submodule update --init --recursive
+          qmk setup -H $GITHUB_WORKSPACE -y --no-submodules
 
-      - name: Debug — lint keyboard
-        run: qmk lint -kb saaqib_macropad || true
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-arm-none-eabi
 
       - name: Compile firmware
-        run: qmk compile -kb saaqib_macropad -km default
+        run: |
+          cd $GITHUB_WORKSPACE
+          qmk compile -kb saaqib_macropad -km default
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
